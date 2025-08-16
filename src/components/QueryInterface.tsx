@@ -20,24 +20,60 @@ export const QueryInterface = () => {
     if (!selectedSuspect || !selectedCrime) return;
     
     setIsLoading(true);
-    // Simulate processing time for dramatic effect
-    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Simulation d'analyse IA avancée avec étapes
+    const analysisSteps = [
+      "Initialisation du moteur IA...",
+      "Analyse des preuves disponibles...",
+      "Application des règles PROLOG...",
+      "Calcul des scores de confiance...",
+      "Génération des recommandations...",
+      "Finalisation de l'analyse..."
+    ];
+    
+    // Simulation progressive pour effet réaliste
+    for (let i = 0; i < analysisSteps.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 200));
+      console.log(`🤖 IA: ${analysisSteps[i]}`);
+    }
     
     const result = engine.isGuilty(selectedSuspect, selectedCrime);
+    console.log('✅ Analyse IA complétée:', result);
+    
     setQueryResult(result);
     setIsLoading(false);
   };
 
   const handleInvestigateAll = async () => {
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1200));
+    
+    // Simulation d'investigation IA complète
+    const investigationSteps = [
+      "🚀 Démarrage investigation IA globale...",
+      "📊 Analyse de tous les suspects...",
+      "🔍 Application des règles expertes...",
+      "🧠 Calcul des corrélations...",
+      "📈 Génération du rapport final...",
+      "✅ Investigation terminée"
+    ];
+    
+    for (let i = 0; i < investigationSteps.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 250));
+      console.log(investigationSteps[i]);
+    }
     
     const results = engine.investigateAll();
-    // For display purposes, show the first guilty result or most evidence
+    console.log(`🎯 Investigation IA: ${results.length} cas analysés`);
+    
+    // Sélection intelligente du meilleur résultat
     const bestResult = results
       .filter(r => r.guilty)
       .sort((a, b) => b.evidence.length - a.evidence.length)[0] || 
       results.sort((a, b) => b.evidence.length - a.evidence.length)[0];
+    
+    if (bestResult) {
+      console.log(`🏆 Meilleur résultat: ${bestResult.suspect} pour ${bestResult.crime}`);
+    }
     
     setQueryResult(bestResult);
     setIsLoading(false);
@@ -85,23 +121,23 @@ export const QueryInterface = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button 
-              onClick={handleQuery} 
-              disabled={!selectedSuspect || !selectedCrime || isLoading}
-              className="flex items-center gap-2"
-            >
-              <Search className="w-4 h-4" />
-              {isLoading ? "Analyse..." : "Enquêter"}
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={handleInvestigateAll}
-              disabled={isLoading}
-              className="flex items-center gap-2"
-            >
-              <Brain className="w-4 h-4" />
-              Investigation complète
-            </Button>
+              <Button 
+                onClick={handleQuery} 
+                disabled={!selectedSuspect || !selectedCrime || isLoading}
+                className="flex items-center gap-2"
+              >
+                <Search className="w-4 h-4" />
+                {isLoading ? "🤖 Analyse IA..." : "🔍 Enquêter"}
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={handleInvestigateAll}
+                disabled={isLoading}
+                className="flex items-center gap-2"
+              >
+                <Brain className="w-4 h-4" />
+                {isLoading ? "🧠 IA en cours..." : "🚀 Investigation IA complète"}
+              </Button>
           </div>
         </div>
       </Card>
