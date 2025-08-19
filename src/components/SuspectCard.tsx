@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Fact } from "@/types/CrimeSystem";
-import { UserX, Eye, Fingerprint, MapPin, CreditCard, IdCard } from "lucide-react";
+import { UserX, Eye, Fingerprint, MapPin, CreditCard, IdCard, AlertCircle, Target, User } from "lucide-react";
 
 interface SuspectCardProps {
   name: string;
@@ -12,7 +12,7 @@ interface SuspectCardProps {
 const getFactIcon = (factType: string) => {
   switch (factType) {
     case 'has_motive':
-      return <UserX className="w-4 h-4" />;
+      return <Target className="w-4 h-4" />;
     case 'was_near_crime_scene':
       return <MapPin className="w-4 h-4" />;
     case 'has_fingerprint_on_weapon':
@@ -20,9 +20,25 @@ const getFactIcon = (factType: string) => {
     case 'has_bank_transaction':
       return <CreditCard className="w-4 h-4" />;
     case 'owns_fake_identity':
-      return <IdCard className="w-4 h-4" />;
+      return <User className="w-4 h-4" />;
     case 'eyewitness_identification':
       return <Eye className="w-4 h-4" />;
+    case 'has_dna_evidence':
+      return <AlertCircle className="w-4 h-4" />;
+    case 'has_camera_evidence':
+      return <Eye className="w-4 h-4" />;
+    case 'has_computer_evidence':
+      return <AlertCircle className="w-4 h-4" />;
+    case 'has_network_logs':
+      return <AlertCircle className="w-4 h-4" />;
+    case 'has_phone_records':
+      return <AlertCircle className="w-4 h-4" />;
+    case 'has_document_evidence':
+      return <AlertCircle className="w-4 h-4" />;
+    case 'has_property_evidence':
+      return <AlertCircle className="w-4 h-4" />;
+    case 'has_alibi':
+      return <AlertCircle className="w-4 h-4" />;
     default:
       return null;
   }
@@ -31,17 +47,33 @@ const getFactIcon = (factType: string) => {
 const getFactLabel = (factType: string) => {
   switch (factType) {
     case 'has_motive':
-      return 'Motif';
+      return 'Mobile identifié';
     case 'was_near_crime_scene':
-      return 'Près de la scène';
+      return 'Présence sur les lieux';
     case 'has_fingerprint_on_weapon':
-      return 'Empreintes sur arme';
+      return 'Empreintes sur l\'arme';
     case 'has_bank_transaction':
       return 'Transaction bancaire';
     case 'owns_fake_identity':
       return 'Fausse identité';
     case 'eyewitness_identification':
       return 'Témoin oculaire';
+    case 'has_dna_evidence':
+      return 'Preuves ADN';
+    case 'has_camera_evidence':
+      return 'Vidéosurveillance';
+    case 'has_computer_evidence':
+      return 'Preuves informatiques';
+    case 'has_network_logs':
+      return 'Logs réseau';
+    case 'has_phone_records':
+      return 'Relevés téléphoniques';
+    case 'has_document_evidence':
+      return 'Documents falsifiés';
+    case 'has_property_evidence':
+      return 'Biens suspects';
+    case 'has_alibi':
+      return 'Alibi confirmé';
     default:
       return factType;
   }

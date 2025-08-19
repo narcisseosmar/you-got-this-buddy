@@ -1,8 +1,10 @@
-import { SuspectCard } from "@/components/SuspectCard";
-import { QueryInterface } from "@/components/QueryInterface";
-import { RulesDisplay } from "@/components/RulesDisplay";
+import { QueryInterface } from '@/components/QueryInterface';
+import { SuspectCard } from '@/components/SuspectCard';
+import { RulesDisplay } from '@/components/RulesDisplay';
+import { SystemArchitecture } from '@/components/SystemArchitecture';
+import { suspects, facts } from '@/data/crimeData';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PrologEngine } from "@/utils/prolog";
-import { suspects } from "@/data/crimeData";
 import { Shield, Scale, Brain, FileSearch } from "lucide-react";
 
 const Index = () => {
@@ -79,37 +81,44 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-6 py-12">
-        <div className="space-y-12">
-          {/* Query Interface */}
-          <QueryInterface />
+        <Tabs defaultValue="investigation" className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="investigation">Investigation IA</TabsTrigger>
+            <TabsTrigger value="architecture">Architecture</TabsTrigger>
+            <TabsTrigger value="suspects">Suspects</TabsTrigger>
+            <TabsTrigger value="rules">Règles PROLOG</TabsTrigger>
+          </TabsList>
 
-          {/* Suspects Grid */}
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
-              <Shield className="w-8 h-8 text-primary" />
-              Suspects & Preuves
-            </h2>
-            
+          <TabsContent value="investigation" className="space-y-6">
+            <QueryInterface />
+          </TabsContent>
+
+          <TabsContent value="architecture" className="space-y-6">
+            <SystemArchitecture />
+          </TabsContent>
+          
+          <TabsContent value="suspects" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {suspects.map(suspect => {
-                const facts = engine.getFactsForSuspect(suspect.id);
+                const suspectFacts = facts.filter(f => f.suspect === suspect.id);
                 const guilt = suspectGuiltyMap.get(suspect.id) || [];
                 
                 return (
                   <SuspectCard 
                     key={suspect.id}
                     name={suspect.name}
-                    facts={facts}
+                    facts={suspectFacts}
                     guilt={guilt}
                   />
                 );
               })}
             </div>
-          </div>
+          </TabsContent>
 
-          {/* Rules Display */}
-          <RulesDisplay />
-        </div>
+          <TabsContent value="rules" className="space-y-6">
+            <RulesDisplay />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
